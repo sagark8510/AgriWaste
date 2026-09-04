@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>AgriWaste | Smart Agricultural Waste Reduction</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f7faf7;
+      color: #17321f;
+      overflow-x: hidden;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================== */
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 18px 7%;
+
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+
+      border-bottom: 1px solid rgba(20, 80, 40, 0.08);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-size: 24px;
+      font-weight: 800;
+      color: #176b36;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 12px;
+      background: #176b36;
+      color: white;
+
+      font-size: 22px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #31513b;
+      font-size: 14px;
+      font-weight: 600;
+
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #176b36;
+    }
+
+    .login-btn {
+      border: none;
+      background: #176b36;
+      color: white;
+
+      padding: 11px 20px;
+      border-radius: 10px;
+
+      font-weight: 700;
+      cursor: pointer;
+
+      transition: 0.3s;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(23, 107, 54, 0.25);
+    }
+
+    /* =========================
+       HERO
+    ========================== */
+
+    .hero {
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+
+      padding: 130px 7% 70px;
+
+      position: relative;
+      overflow: hidden;
+
+      background:
+        radial-gradient(circle at 85% 30%, rgba(91, 180, 110, 0.18), transparent 30%),
+        radial-gradient(circle at 10% 80%, rgba(132, 195, 112, 0.12), transparent 25%),
+        #f7faf7;
+    }
+
+    .hero-content {
+      width: 52%;
+      z-index: 2;
+
+      animation: slideLeft 1s ease forwards;
+    }
+
+    .badge {
+      display: inline-block;
+
+      padding: 8px 14px;
+      border-radius: 30px;
+
+      background: #e2f3e6;
+      color: #176b36;
+
+      font-size: 13px;
+      font-weight: 700;
+
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 5vw, 72px);
+      line-height: 1.05;
+
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span {
+      color: #176b36;
+    }
+
+    .hero p {
+      max-width: 620px;
+
+      font-size: 18px;
+      line-height: 1.7;
+
+      color: #5b6e61;
+
+      margin-bottom: 34px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      padding: 14px 23px;
+      border-radius: 12px;
+
+      font-weight: 700;
+      font-size: 15px;
+
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .primary-btn {
+      border: none;
+      background: #176b36;
+      color: white;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(23, 107, 54, 0.25);
+    }
+
+    .secondary-btn {
+      border: 1px solid #b8c9bc;
+      background: white;
+      color: #31513b;
+    }
+
+    .secondary-btn:hover {
+      transform: translateY(-3px);
+      border-color: #176b36;
+    }
+
+    /* =========================
+       HERO VISUAL
+    ========================== */
+
+    .hero-visual {
+      width: 48%;
+      min-height: 500px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      position: relative;
+
+      animation: slideRight 1s ease forwards;
+    }
+
+    .dashboard-card {
+      width: min(470px, 90%);
+      padding: 25px;
+
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(30, 100, 50, 0.1);
+
+      border-radius: 28px;
+
+      box-shadow:
+        0 30px 70px rgba(33, 77, 42, 0.14);
+
+      transform: rotate(2deg);
+
+      animation: floating 4s ease-in-out infinite;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 22px;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .status {
+      padding: 6px 10px;
+      border-radius: 20px;
+
+      background: #e4f5e7;
+      color: #176b36;
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .risk-box {
+      padding: 22px;
+
+      border-radius: 20px;
+      background: #f3f8f3;
+
+      margin-bottom: 16px;
+    }
+
+    .risk-label {
+      color: #718076;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .risk-number {
+      font-size: 40px;
+      font-weight: 800;
+      color: #176b36;
+    }
+
+    .risk-number small {
+      font-size: 14px;
+      color: #718076;
+      font-weight: 500;
+    }
+
+    .progress {
+      height: 10px;
+      background: #dfe9e1;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 15px;
+    }
+
+    .progress span {
+      display: block;
+      width: 32%;
+      height: 100%;
+      background: #176b36;
+      border-radius: inherit;
+
+      animation: progressGrow 1.8s ease;
+    }
+
+    .produce-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .produce {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 13px 15px;
+
+      border: 1px solid #e6eee7;
+      border-radius: 14px;
+    }
+
+    .produce-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .produce-icon {
+      width: 35px;
+      height: 35px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #edf7ee;
+      border-radius: 10px;
+    }
+
+    .low-risk {
+      font-size: 11px;
+      font-weight: 800;
+      color: #176b36;
+    }
+
+    /* =========================
+       FEATURES
+    ========================== */
+
+    .features {
+      padding: 100px 7%;
+      background: white;
+    }
+
+    .section-heading {
+      max-width: 700px;
+      margin: auto;
+      text-align: center;
+
+      margin-bottom: 55px;
+    }
+
+    .section-heading span {
+      color: #176b36;
+      font-weight: 800;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(30px, 4vw, 48px);
+      margin: 12px 0 15px;
+    }
+
+    .section-heading p {
+      color: #68776d;
+      line-height: 1.7;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .feature-card {
+      padding: 28px;
+
+      border: 1px solid #e3ebe4;
+      border-radius: 20px;
+
+      background: #fbfdfb;
+
+      transition: 0.35s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(31, 75, 39, 0.1);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 15px;
+      background: #e7f5e9;
+
+      font-size: 25px;
+
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .feature-card p {
+      color: #6a776e;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* =========================
+       HOW IT WORKS
+    ========================== */
+
+    .how {
+      padding: 100px 7%;
+      background: #f4f8f4;
+    }
+
+    .steps {
+      max-width: 1000px;
+      margin: auto;
+
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-number {
+      width: 55px;
+      height: 55px;
+
+      margin: 0 auto 18px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background: #176b36;
+      color: white;
+
+      font-weight: 800;
+    }
+
+    .step h3 {
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      color: #6b786f;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* =========================
+       CTA
+    ========================== */
+
+    .cta {
+      margin: 70px 7%;
+      padding: 70px 40px;
+
+      border-radius: 30px;
+
+      text-align: center;
+
+      background: #176b36;
+      color: white;
+
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta h2 {
+      font-size: clamp(30px, 4vw, 46px);
+      margin-bottom: 15px;
+    }
+
+    .cta p {
+      max-width: 650px;
+      margin: 0 auto 28px;
+
+      line-height: 1.7;
+      opacity: 0.88;
+    }
+
+    .cta button {
+      padding: 14px 25px;
+
+      border: none;
+      border-radius: 12px;
+
+      background: white;
+      color: #176b36;
+
+      font-weight: 800;
+      cursor: pointer;
+
+      transition: 0.3s;
+    }
+
+    .cta button:hover {
+      transform: translateY(-3px) scale(1.02);
+    }
+
+    /* =========================
+       FOOTER
+    ========================== */
+
+    footer {
+      padding: 35px 7%;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      background: #102319;
+      color: #b9c7bd;
+    }
+
+    footer strong {
+      color: white;
+    }
+
+    footer p {
+      font-size: 13px;
+    }
+
+    /* =========================
+       ANIMATIONS
+    ========================== */
+
+    @keyframes slideLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes floating {
+      0%, 100% {
+        transform: translateY(0) rotate(2deg);
+      }
+
+      50% {
+        transform: translateY(-12px) rotate(2deg);
+      }
+    }
+
+    @keyframes progressGrow {
+      from {
+        width: 0;
+      }
+
+      to {
+        width: 32%;
+      }
+    }
+
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media (max-width: 900px) {
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        flex-direction: column;
+        padding-top: 120px;
+      }
+
+      .hero-content,
+      .hero-visual {
+        width: 100%;
+      }
+
+      .hero-content {
+        text-align: center;
+      }
+
+      .hero p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        min-height: 420px;
+        margin-top: 30px;
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .steps {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 40px;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      .navbar {
+        padding: 15px 5%;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
+
+      .logo-icon {
+        width: 35px;
+        height: 35px;
+      }
+
+      .hero {
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+
+      .hero h1 {
+        font-size: 43px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .feature-grid,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .features,
+      .how {
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+
+      .cta {
+        margin-left: 5%;
+        margin-right: 5%;
+        padding: 50px 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       NAVBAR
+  ========================== -->
+
+  <nav class="navbar">
+
+    <div class="logo">
+      <div class="logo-icon">🌱</div>
+      AgriWaste
+    </div>
+
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+      <a href="#how">How It Works</a>
+      <a href="#about">About</a>
+    </div>
+
+    <button class="login-btn" onclick="showMessage()">
+      Login
+    </button>
+
+  </nav>
+
+
+  <!-- =========================
+       HERO
+  ========================== -->
+
+  <main id="home">
+
+    <section class="hero">
+
+      <div class="hero-content">
+
+        <div class="badge">
+          🌾 Smart Agriculture • SIH26197
+        </div>
+
+        <h1>
+          Smarter Decisions for
+          <span>Less Agricultural Waste.</span>
+        </h1>
+
+        <p>
+          AgriWaste is a smart agricultural produce management
+          platform designed to help farmers understand waste risk,
+          make better decisions and reduce post-harvest losses.
+        </p>
+
+        <div class="hero-buttons">
+
+          <button class="primary-btn" onclick="startProject()">
+            Get Started →
+          </button>
+
+          <button class="secondary-btn" onclick="scrollToSection('how')">
+            How It Works
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- Dashboard preview -->
+
+      <div class="hero-visual">
+
+        <div class="dashboard-card">
+
+          <div class="card-top">
+
+            <div class="card-title">
+              Produce Risk Overview
+            </div>
+
+            <div class="status">
+              LIVE
+            </div>
+
+          </div>
+
+
+          <div class="risk-box">
+
+            <div class="risk-label">
+              Current Waste Risk
+            </div>
+
+            <div class="risk-number">
+              32% <small>estimated risk</small>
+            </div>
+
+            <div class="progress">
+              <span></span>
+            </div>
+
+          </div>
+
+
+          <div class="produce-list">
+
+            <div class="produce">
+
+              <div class="produce-left">
+                <div class="produce-icon">🍅</div>
+                Tomato
+              </div>
+
+              <div class="low-risk">
+                LOW RISK
+              </div>
+
+            </div>
+
+
+            <div class="produce">
+
+              <div class="produce-left">
+                <div class="produce-icon">🥔</div>
+                Potato
+              </div>
+
+              <div class="low-risk">
+                LOW RISK
+              </div>
+
+            </div>
+
+
+            <div class="produce">
+
+              <div class="produce-left">
+                <div class="produce-icon">🥭</div>
+                Mango
+              </div>
+
+              <div class="low-risk">
+                MEDIUM
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         FEATURES
+    ========================== -->
+
+    <section class="features" id="features">
+
+      <div class="section-heading">
+
+        <span>Core Features</span>
+
+        <h2>
+          Turning Data Into Better Decisions
+        </h2>
+
+        <p>
+          The platform will help farmers organize produce
+          information and receive useful insights for reducing
+          post-harvest waste.
+        </p>
+
+      </div>
+
+
+      <div class="feature-grid">
+
+        <div class="feature-card">
+
+          <div class="feature-icon">📦</div>
+
+          <h3>
+            Produce Management
+          </h3>
+
+          <p>
+            Record crop type, quantity, harvest date,
+            storage conditions and quality information.
+          </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+          <div class="feature-icon">📊</div>
+
+          <h3>
+            Risk Analysis
+          </h3>
+
+          <p>
+            Analyse produce information and estimate
+            the potential level of waste risk.
+          </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+          <div class="feature-icon">💡</div>
+
+          <h3>
+            Smart Recommendations
+          </h3>
+
+          <p>
+            Provide actionable suggestions to help farmers
+            decide whether to sell, store or process produce.
+          </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+          <div class="feature-icon">📈</div>
+
+          <h3>
+            History & Insights
+          </h3>
+
+          <p>
+            Track previous produce records and understand
+            risk patterns through a simple dashboard.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         HOW IT WORKS
+    ========================== -->
+
+    <section class="how" id="how">
+
+      <div class="section-heading">
+
+        <span>How It Works</span>
+
+        <h2>
+          From Produce Data to Action
+        </h2>
+
+        <p>
+          A simple workflow designed around the farmer's
+          decision-making process.
+        </p>
+
+      </div>
+
+
+      <div class="steps">
+
+        <div class="step">
+
+          <div class="step-number">01</div>
+
+          <h3>
+            Add Produce
+          </h3>
+
+          <p>
+            Enter crop, quantity, harvest and storage details.
+          </p>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="step-number">02</div>
+
+          <h3>
+            Analyse
+          </h3>
+
+          <p>
+            The system evaluates the available information.
+          </p>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="step-number">03</div>
+
+          <h3>
+            Get Risk
+          </h3>
+
+          <p>
+            Receive a low, medium or high waste-risk result.
+          </p>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="step-number">04</div>
+
+          <h3>
+            Take Action
+          </h3>
+
+          <p>
+            Follow recommendations to reduce potential waste.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CTA
+    ========================== -->
+
+    <section class="cta" id="about">
+
+      <h2>
+        Let's Reduce Agricultural Waste
+      </h2>
+
+      <p>
+        AgriWaste aims to use technology to support smarter
+        post-harvest decisions and help build a more efficient
+        agricultural ecosystem.
+      </p>
+
+      <button onclick="startProject()">
+        Start Exploring →
+      </button>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer>
+
+    <p>
+      © 2026 <strong>AgriWaste</strong>
+    </p>
+
+    <p>
+      Smart Agricultural Produce Waste Reduction System
+    </p>
+
+  </footer>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+
+  <script>
+
+    function scrollToSection(id) {
+
+      const section = document.getElementById(id);
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth"
+        });
+      }
+
+    }
+
+
+    function startProject() {
+
+      alert(
+        "🚀 AgriWaste is ready to grow!\\n\\n" +
+        "The Farmer Dashboard will be connected in the next development step."
+      );
+
+    }
+
+
+    function showMessage() {
+
+      alert(
+        "🔐 Farmer Login\\n\\n" +
+        "Authentication will be added in the next step."
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>
