@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AgriWaste | Farmer Dashboard</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f8f4;
+      color: #17321f;
+      min-height: 100vh;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================== */
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+
+      width: 245px;
+      height: 100vh;
+
+      background: #10301d;
+      color: white;
+
+      padding: 28px 18px;
+
+      display: flex;
+      flex-direction: column;
+
+      z-index: 1000;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-size: 21px;
+      font-weight: 800;
+
+      padding: 0 10px 35px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #1d7940;
+      border-radius: 11px;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .menu a {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+
+      padding: 13px 14px;
+
+      border-radius: 10px;
+
+      color: #b8c9bd;
+      text-decoration: none;
+
+      font-size: 14px;
+      font-weight: 600;
+
+      transition: 0.3s;
+    }
+
+    .menu a:hover,
+    .menu a.active {
+      background: #1b6034;
+      color: white;
+    }
+
+    .back-home {
+      margin-top: auto;
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      color: #b8c9bd;
+      text-decoration: none;
+
+      padding: 13px 14px;
+
+      font-size: 13px;
+    }
+
+    /* =========================
+       MAIN
+    ========================== */
+
+    .main {
+      margin-left: 245px;
+      padding: 30px 5%;
+    }
+
+    /* =========================
+       TOPBAR
+    ========================== */
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 35px;
+    }
+
+    .welcome h1 {
+      font-size: 30px;
+      margin-bottom: 7px;
+    }
+
+    .welcome p {
+      color: #6c7b70;
+      font-size: 14px;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .notification {
+      width: 40px;
+      height: 40px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: white;
+      border: 1px solid #e0e9e1;
+
+      border-radius: 12px;
+
+      cursor: pointer;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background: #dcefe0;
+      color: #176b36;
+
+      font-weight: 800;
+    }
+
+    /* =========================
+       STAT CARDS
+    ========================== */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: white;
+
+      padding: 22px;
+
+      border: 1px solid #e2ebe3;
+      border-radius: 18px;
+
+      transition: 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(30, 80, 40, 0.08);
+    }
+
+    .stat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 18px;
+    }
+
+    .stat-icon {
+      width: 43px;
+      height: 43px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #e8f5ea;
+      border-radius: 12px;
+
+      font-size: 20px;
+    }
+
+    .stat-label {
+      color: #718076;
+      font-size: 13px;
+    }
+
+    .stat-value {
+      font-size: 27px;
+      font-weight: 800;
+    }
+
+    .stat-change {
+      margin-top: 7px;
+
+      font-size: 11px;
+      color: #176b36;
+      font-weight: 700;
+    }
+
+    /* =========================
+       MAIN GRID
+    ========================== */
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+
+      gap: 22px;
+    }
+
+    .panel {
+      background: white;
+
+      border: 1px solid #e2ebe3;
+      border-radius: 20px;
+
+      padding: 25px;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 22px;
+    }
+
+    .panel-header h2 {
+      font-size: 18px;
+    }
+
+    .panel-header a {
+      color: #176b36;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    /* =========================
+       RISK PANEL
+    ========================== */
+
+    .risk-main {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .risk-circle {
+      width: 145px;
+      height: 145px;
+
+      border-radius: 50%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      background: #e8f5ea;
+
+      border: 12px solid #3b9659;
+
+      flex-shrink: 0;
+    }
+
+    .risk-circle strong {
+      font-size: 30px;
+      color: #176b36;
+    }
+
+    .risk-circle span {
+      font-size: 11px;
+      color: #6d7b71;
+    }
+
+    .risk-info h3 {
+      font-size: 21px;
+      margin-bottom: 8px;
+    }
+
+    .risk-info p {
+      color: #6c7b70;
+      font-size: 13px;
+      line-height: 1.6;
+
+      margin-bottom: 15px;
+    }
+
+    .risk-status {
+      display: inline-block;
+
+      padding: 7px 12px;
+
+      border-radius: 20px;
+
+      background: #e5f5e8;
+      color: #176b36;
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* =========================
+       QUICK ACTIONS
+    ========================== */
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .action-btn {
+      border: 1px solid #e1eae2;
+
+      background: #f9fcf9;
+
+      padding: 17px 12px;
+
+      border-radius: 14px;
+
+      cursor: pointer;
+
+      text-align: left;
+
+      transition: 0.3s;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-3px);
+      border-color: #9cc6a5;
+      background: #f0f8f1;
+    }
+
+    .action-icon {
+      font-size: 21px;
+      margin-bottom: 9px;
+    }
+
+    .action-btn strong {
+      display: block;
+
+      color: #17321f;
+
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .action-btn span {
+      color: #7a877d;
+      font-size: 10px;
+    }
+
+    /* =========================
+       RECENT PRODUCE
+    ========================== */
+
+    .recent {
+      margin-top: 22px;
+    }
+
+    .produce-row {
+      display: grid;
+
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+
+      align-items: center;
+
+      padding: 15px 10px;
+
+      border-bottom: 1px solid #edf1ed;
+    }
+
+    .produce-row:last-child {
+      border-bottom: none;
+    }
+
+    .produce-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .produce-icon {
+      width: 35px;
+      height: 35px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #edf7ef;
+      border-radius: 10px;
+    }
+
+    .produce-row span {
+      color: #718076;
+      font-size: 12px;
+    }
+
+    .risk-badge {
+      justify-self: start;
+
+      padding: 6px 9px;
+
+      border-radius: 15px;
+
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .low {
+      background: #e4f5e7;
+      color: #176b36;
+    }
+
+    .medium {
+      background: #fff4d9;
+      color: #9a6a00;
+    }
+
+    .high {
+      background: #ffe5e5;
+      color: #b42323;
+    }
+
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media (max-width: 1000px) {
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+
+      .sidebar {
+        position: relative;
+
+        width: 100%;
+        height: auto;
+
+        padding: 15px;
+
+        flex-direction: row;
+        align-items: center;
+
+        overflow-x: auto;
+      }
+
+      .brand {
+        padding: 0 15px 0 0;
+      }
+
+      .menu {
+        flex-direction: row;
+      }
+
+      .menu a {
+        white-space: nowrap;
+      }
+
+      .back-home {
+        display: none;
+      }
+
+      .main {
+        margin-left: 0;
+        padding: 25px 5%;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+
+      .welcome h1 {
+        font-size: 24px;
+      }
+
+      .profile {
+        display: none;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .risk-main {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .produce-row {
+        grid-template-columns: 1.3fr 1fr;
+        gap: 10px;
+      }
+
+      .produce-row span:nth-child(2) {
+        display: none;
+      }
+    }
+
+    @media (max-width: 450px) {
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .panel {
+        padding: 18px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
+
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-icon">🌱</div>
+      AgriWaste
+    </div>
+
+    <nav class="menu">
+
+      <a href="dashboard.html" class="active">
+        📊 Dashboard
+      </a>
+
+      <a href="#" onclick="comingSoon('Add Produce')">
+        📦 Add Produce
+      </a>
+
+      <a href="#" onclick="comingSoon('My Produce')">
+        🌾 My Produce
+      </a>
+
+      <a href="#" onclick="comingSoon('Risk Analysis')">
+        🧠 Risk Analysis
+      </a>
+
+      <a href="#" onclick="comingSoon('History')">
+        📈 History
+      </a>
+
+      <a href="#" onclick="comingSoon('Recommendations')">
+        💡 Recommendations
+      </a>
+
+    </nav>
+
+    <a href="index.html" class="back-home">
+      ← Back to Home
+    </a>
+
+  </aside>
+
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+
+  <main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+      <div class="welcome">
+
+        <h1>
+          Good Morning, Farmer 👋
+        </h1>
+
+        <p>
+          Here's what's happening with your agricultural produce.
+        </p>
+
+      </div>
+
+      <div class="profile">
+
+        <button class="notification"
+                onclick="showNotification()">
+          🔔
+        </button>
+
+        <div class="avatar">
+          F
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         STAT CARDS
+    ========================== -->
+
+    <section class="stats">
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+
+          <div class="stat-label">
+            Total Produce
+          </div>
+
+          <div class="stat-icon">
+            📦
+          </div>
+
+        </div>
+
+        <div class="stat-value">
+          12
+        </div>
+
+        <div class="stat-change">
+          ↑ 3 this month
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+
+          <div class="stat-label">
+            Total Quantity
+          </div>
+
+          <div class="stat-icon">
+            ⚖️
+          </div>
+
+        </div>
+
+        <div class="stat-value">
+          2,450 kg
+        </div>
+
+        <div class="stat-change">
+          ↑ 8.4% this month
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+
+          <div class="stat-label">
+            High Risk
+          </div>
+
+          <div class="stat-icon">
+            ⚠️
+          </div>
+
+        </div>
+
+        <div class="stat-value">
+          2
+        </div>
+
+        <div class="stat-change">
+          Needs attention
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+
+          <div class="stat-label">
+            Waste Prevented
+          </div>
+
+          <div class="stat-icon">
+            ♻️
+          </div>
+
+        </div>
+
+        <div class="stat-value">
+          320 kg
+        </div>
+
+        <div class="stat-change">
+          Estimated
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         DASHBOARD GRID
+    ========================== -->
+
+    <section class="dashboard-grid">
+
+
+      <!-- RISK OVERVIEW -->
+
+      <div class="panel">
+
+        <div class="panel-header">
+
+          <h2>
+            Current Waste Risk
+          </h2>
+
+          <a href="#" onclick="comingSoon('Risk Analysis')">
+            View Details →
+          </a>
+
+        </div>
+
+
+        <div class="risk-main">
+
+          <div class="risk-circle">
+
+            <strong>32%</strong>
+
+            <span>
+              estimated risk
+            </span>
+
+          </div>
+
+
+          <div class="risk-info">
+
+            <h3>
+              Low Risk 🟢
+            </h3>
+
+            <p>
+              Your current produce portfolio has a relatively
+              low estimated waste risk. Keep monitoring storage
+              conditions and harvest age.
+            </p>
+
+            <span class="risk-status">
+              GOOD CONDITION
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- QUICK ACTIONS -->
+
+      <div class="panel">
+
+        <div class="panel-header">
+
+          <h2>
+            Quick Actions
+          </h2>
+
+        </div>
+
+
+        <div class="actions">
+
+          <button class="action-btn"
+                  onclick="comingSoon('Add Produce')">
+
+            <div class="action-icon">
+              📦
+            </div>
+
+            <strong>
+              Add Produce
+            </strong>
+
+            <span>
+              Record new harvest
+            </span>
+
+          </button>
+
+
+          <button class="action-btn"
+                  onclick="comingSoon('Risk Analysis')">
+
+            <div class="action-icon">
+              🧠
+            </div>
+
+            <strong>
+              Check Risk
+            </strong>
+
+            <span>
+              Analyse produce
+            </span>
+
+          </button>
+
+
+          <button class="action-btn"
+                  onclick="comingSoon('History')">
+
+            <div class="action-icon">
+              📈
+            </div>
+
+            <strong>
+              View History
+            </strong>
+
+            <span>
+              Previous records
+            </span>
+
+          </button>
+
+
+          <button class="action-btn"
+                  onclick="comingSoon('Recommendations')">
+
+            <div class="action-icon">
+              💡
+            </div>
+
+            <strong>
+              Recommendations
+            </strong>
+
+            <span>
+              Smart suggestions
+            </span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         RECENT PRODUCE
+    ========================== -->
+
+    <section class="panel recent">
+
+      <div class="panel-header">
+
+        <h2>
+          Recent Produce
+        </h2>
+
+        <a href="#" onclick="comingSoon('My Produce')">
+          View All →
+        </a>
+
+      </div>
+
+
+      <!-- Table Header -->
+
+      <div class="produce-row">
+
+        <span>
+          Produce
+        </span>
+
+        <span>
+          Quantity
+        </span>
+
+        <span>
+          Harvest Date
+        </span>
+
+        <span>
+          Risk
+        </span>
+
+      </div>
+
+
+      <!-- Tomato -->
+
+      <div class="produce-row">
+
+        <div class="produce-name">
+
+          <div class="produce-icon">
+            🍅
+          </div>
+
+          Tomato
+
+        </div>
+
+        <span>
+          500 kg
+        </span>
+
+        <span>
+          14 Sep 2026
+        </span>
+
+        <div class="risk-badge low">
+          LOW
+        </div>
+
+      </div>
+
+
+      <!-- Potato -->
+
+      <div class="produce-row">
+
+        <div class="produce-name">
+
+          <div class="produce-icon">
+            🥔
+          </div>
+
+          Potato
+
+        </div>
+
+        <span>
+          750 kg
+        </span>
+
+        <span>
+          12 Sep 2026
+        </span>
+
+        <div class="risk-badge medium">
+          MEDIUM
+        </div>
+
+      </div>
+
+
+      <!-- Mango -->
+
+      <div class="produce-row">
+
+        <div class="produce-name">
+
+          <div class="produce-icon">
+            🥭
+          </div>
+
+          Mango
+
+        </div>
+
+        <span>
+          300 kg
+        </span>
+
+        <span>
+          10 Sep 2026
+        </span>
+
+        <div class="risk-badge high">
+          HIGH
+        </div>
+
+      </div>
+
+
+      <!-- Wheat -->
+
+      <div class="produce-row">
+
+        <div class="produce-name">
+
+          <div class="produce-icon">
+            🌾
+          </div>
+
+          Wheat
+
+        </div>
+
+        <span>
+          900 kg
+        </span>
+
+        <span>
+          05 Sep 2026
+        </span>
+
+        <div class="risk-badge low">
+          LOW
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+
+  <script>
+
+    function comingSoon(feature) {
+
+      alert(
+        "🚧 " + feature +
+        "\\n\\nThis feature will be connected in the next development step."
+      );
+
+    }
+
+
+    function showNotification() {
+
+      alert(
+        "🔔 Notifications\\n\\n" +
+        "No new alerts right now."
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>
