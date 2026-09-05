@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Produce - AgriWaste</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f5;
+            color: #1f2d24;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #123d2a;
+            color: white;
+            padding: 25px 18px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        .logo span {
+            color: #8fd694;
+        }
+
+        .nav a {
+            display: block;
+            color: #dce9df;
+            text-decoration: none;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: #245c40;
+            color: white;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 35px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 30px;
+        }
+
+        .back {
+            color: #26734d;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-card {
+            max-width: 900px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .form-card h2 {
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #68756d;
+            margin-bottom: 28px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            padding: 13px;
+            border: 1px solid #ccd8d0;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #26734d;
+        }
+
+        .analyze-btn {
+            margin-top: 28px;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 9px;
+            background: #26734d;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .analyze-btn:hover {
+            background: #1d5d3e;
+        }
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            Agri<span>Waste</span>
+        </div>
+
+        <nav class="nav">
+
+            <a href="dashboard.html">📊 Dashboard</a>
+
+            <a href="add-produce.html" class="active">
+                ➕ Add Produce
+            </a>
+
+            <a href="#">🌾 My Produce</a>
+
+            <a href="#">⚠️ Risk Analysis</a>
+
+            <a href="#">📜 History</a>
+
+            <a href="#">💡 Recommendations</a>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <h1>Add Produce</h1>
+                <p>Enter your agricultural produce details</p>
+            </div>
+
+            <a href="dashboard.html" class="back">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+
+        <div class="form-card">
+
+            <h2>Produce Information</h2>
+
+            <p class="subtitle">
+                Provide the available information to analyse post-harvest waste risk.
+            </p>
+
+
+            <form>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="produce">
+                            Crop / Produce Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="produce"
+                            placeholder="e.g. Tomato"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="quantity">
+                            Quantity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="quantity"
+                            placeholder="e.g. 500"
+                            min="0"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="unit">
+                            Unit
+                        </label>
+
+                        <select id="unit">
+                            <option value="kg">Kilogram (kg)</option>
+                            <option value="quintal">Quintal</option>
+                            <option value="ton">Tonne</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="harvest">
+                            Harvest Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="harvest"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="storage">
+                            Storage Type
+                        </label>
+
+                        <select id="storage">
+
+                            <option value="">
+                                Select storage type
+                            </option>
+
+                            <option value="open">
+                                Open / No Storage
+                            </option>
+
+                            <option value="warehouse">
+                                Warehouse
+                            </option>
+
+                            <option value="cold">
+                                Cold Storage
+                            </option>
+
+                            <option value="other">
+                                Other
+                            </option>
+
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="temperature">
+                            Temperature (°C)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="temperature"
+                            placeholder="e.g. 28"
+                            step="0.1"
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="humidity">
+                            Humidity (%)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="humidity"
+                            placeholder="e.g. 65"
+                            min="0"
+                            max="100"
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="quality">
+                            Current Quality
+                        </label>
+
+                        <select id="quality">
+
+                            <option value="">
+                                Select quality
+                            </option>
+
+                            <option value="good">
+                                Good
+                            </option>
+
+                            <option value="average">
+                                Average
+                            </option>
+
+                            <option value="poor">
+                                Poor
+                            </option>
+
+                        </select>
+                    </div>
+
+
+                    <div class="form-group full">
+                        <label for="action">
+                            Intended Action
+                        </label>
+
+                        <select id="action">
+
+                            <option value="">
+                                What do you plan to do?
+                            </option>
+
+                            <option value="sell">
+                                Sell
+                            </option>
+
+                            <option value="store">
+                                Store
+                            </option>
+
+                            <option value="process">
+                                Process
+                            </option>
+
+                            <option value="undecided">
+                                Not Decided
+                            </option>
+
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="analyze-btn">
+                    🔍 Analyze Waste Risk
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
