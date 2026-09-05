@@ -129,3 +129,72 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+// ========================================
+// Waste Risk Calculation
+// ========================================
+
+function calculateRisk(produce) {
+
+    let score = 0;
+
+
+    // Temperature factor
+    if (produce.temperature > 35) {
+        score += 30;
+    } else if (produce.temperature > 30) {
+        score += 20;
+    } else if (produce.temperature > 25) {
+        score += 10;
+    }
+
+
+    // Humidity factor
+    if (produce.humidity > 80) {
+        score += 30;
+    } else if (produce.humidity > 70) {
+        score += 20;
+    } else if (produce.humidity > 60) {
+        score += 10;
+    }
+
+
+    // Quality factor
+    if (produce.quality === "Poor") {
+        score += 25;
+    } else if (produce.quality === "Average") {
+        score += 15;
+    }
+
+
+    // Storage factor
+    if (
+        produce.storage === "Open / No Storage" ||
+        produce.storage === "Other"
+    ) {
+        score += 15;
+    } else if (produce.storage === "Warehouse") {
+        score += 5;
+    }
+
+
+    // Keep score between 0 and 100
+    score = Math.min(score, 100);
+
+
+    // Determine risk level
+    let level;
+
+    if (score < 35) {
+        level = "Low";
+    } else if (score < 65) {
+        level = "Medium";
+    } else {
+        level = "High";
+    }
+
+
+    return {
+        score: score,
+        level: level
+    };
+}
