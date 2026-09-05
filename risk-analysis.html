@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Analysis - AgriWaste</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7f5;
+            color: #1f2937;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #12372a;
+            color: white;
+            padding: 25px 18px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        .logo span {
+            color: #8fd694;
+        }
+
+        .nav a {
+            display: block;
+            color: #d7e5dc;
+            text-decoration: none;
+            padding: 14px 15px;
+            margin: 6px 0;
+            border-radius: 8px;
+        }
+
+        .nav a:hover,
+        .nav .active {
+            background: #1f5c45;
+            color: white;
+        }
+
+        .back-home {
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+        }
+
+        .back-home a {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            border: 1px solid #6fa887;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Main */
+        .main {
+            margin-left: 250px;
+            padding: 35px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+            color: #12372a;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #64748b;
+        }
+
+        /* Risk overview */
+        .risk-overview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .risk-card,
+        .details-card {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+        }
+
+        .risk-card {
+            text-align: center;
+        }
+
+        .risk-card h2 {
+            color: #12372a;
+            margin-bottom: 25px;
+        }
+
+        .risk-circle {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            margin: auto;
+            background: #e8f5ec;
+            border: 15px solid #55a56f;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .risk-circle strong {
+            font-size: 42px;
+            color: #1f7a50;
+        }
+
+        .risk-circle span {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .risk-label {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 9px 22px;
+            border-radius: 20px;
+            background: #dcfce7;
+            color: #166534;
+            font-weight: bold;
+        }
+
+        /* Details */
+        .details-card h2 {
+            color: #12372a;
+            margin-bottom: 22px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 13px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row span:first-child {
+            color: #64748b;
+        }
+
+        .detail-row span:last-child {
+            font-weight: bold;
+        }
+
+        /* Factors */
+        .factors {
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+            margin-bottom: 25px;
+        }
+
+        .factors h2 {
+            color: #12372a;
+            margin-bottom: 20px;
+        }
+
+        .factor {
+            margin-bottom: 18px;
+        }
+
+        .factor-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .factor-top span:first-child {
+            font-weight: bold;
+        }
+
+        .factor-top span:last-child {
+            color: #64748b;
+        }
+
+        .progress {
+            width: 100%;
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .temperature {
+            width: 35%;
+            background: #55a56f;
+        }
+
+        .humidity {
+            width: 45%;
+            background: #55a56f;
+        }
+
+        .quality {
+            width: 25%;
+            background: #55a56f;
+        }
+
+        .storage {
+            width: 30%;
+            background: #55a56f;
+        }
+
+        /* Recommendation */
+        .recommendation {
+            background: #edf7f0;
+            border-left: 5px solid #1f7a50;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .recommendation h2 {
+            color: #12372a;
+            margin-bottom: 12px;
+        }
+
+        .recommendation p {
+            line-height: 1.6;
+            color: #475569;
+        }
+
+        /* Mobile */
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+                padding: 20px;
+            }
+
+            .risk-overview {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .back-home {
+                position: relative;
+                left: auto;
+                right: auto;
+                bottom: auto;
+                margin-top: 20px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            🌱 Agri<span>Waste</span>
+        </div>
+
+        <nav class="nav">
+
+            <a href="#">📊 Dashboard</a>
+
+            <a href="#">➕ Add Produce</a>
+
+            <a href="#">🌾 My Produce</a>
+
+            <a href="#" class="active">⚠️ Risk Analysis</a>
+
+            <a href="#">📜 History</a>
+
+            <a href="#">💡 Recommendations</a>
+
+        </nav>
+
+        <div class="back-home">
+            <a href="#">← Back to Home</a>
+        </div>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <div class="header">
+            <h1>Waste Risk Analysis</h1>
+            <p>Analyze the factors that may affect your agricultural produce.</p>
+        </div>
+
+
+        <!-- Risk Overview -->
+        <section class="risk-overview">
+
+            <!-- Risk Score -->
+            <div class="risk-card">
+
+                <h2>Current Waste Risk</h2>
+
+                <div class="risk-circle">
+                    <strong>32%</strong>
+                    <span>Risk Score</span>
+                </div>
+
+                <div class="risk-label">
+                    ✓ Low Risk
+                </div>
+
+            </div>
+
+
+            <!-- Produce Details -->
+            <div class="details-card">
+
+                <h2>Produce Details</h2>
+
+                <div class="detail-row">
+                    <span>Produce</span>
+                    <span>🍅 Tomato</span>
+                </div>
+
+                <div class="detail-row">
+                    <span>Quantity</span>
+                    <span>500 kg</span>
+                </div>
+
+                <div class="detail-row">
+                    <span>Harvest Date</span>
+                    <span>20 Aug 2026</span>
+                </div>
+
+                <div class="detail-row">
+                    <span>Storage</span>
+                    <span>Warehouse</span>
+                </div>
+
+                <div class="detail-row">
+                    <span>Quality</span>
+                    <span>Good</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Risk Factors -->
+        <section class="factors">
+
+            <h2>Risk Factors</h2>
+
+            <div class="factor">
+
+                <div class="factor-top">
+                    <span>Temperature</span>
+                    <span>Low Impact</span>
+                </div>
+
+                <div class="progress">
+                    <div class="progress-bar temperature"></div>
+                </div>
+
+            </div>
+
+
+            <div class="factor">
+
+                <div class="factor-top">
+                    <span>Humidity</span>
+                    <span>Moderate Impact</span>
+                </div>
+
+                <div class="progress">
+                    <div class="progress-bar humidity"></div>
+                </div>
+
+            </div>
+
+
+            <div class="factor">
+
+                <div class="factor-top">
+                    <span>Current Quality</span>
+                    <span>Low Impact</span>
+                </div>
+
+                <div class="progress">
+                    <div class="progress-bar quality"></div>
+                </div>
+
+            </div>
+
+
+            <div class="factor">
+
+                <div class="factor-top">
+                    <span>Storage Condition</span>
+                    <span>Low Impact</span>
+                </div>
+
+                <div class="progress">
+                    <div class="progress-bar storage"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Recommendation -->
+        <section class="recommendation">
+
+            <h2>💡 Suggested Action</h2>
+
+            <p>
+                Your produce currently shows a low waste-risk level.
+                Continue maintaining suitable storage conditions and
+                monitor temperature, humidity, and produce quality regularly.
+                If the condition changes, perform another risk analysis.
+            </p>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
