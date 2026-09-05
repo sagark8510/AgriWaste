@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations - AgriWaste</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7f5;
+            color: #1f2937;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #12372a;
+            color: white;
+            padding: 25px 18px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        .logo span {
+            color: #8fd694;
+        }
+
+        .nav a {
+            display: block;
+            color: #d7e5dc;
+            text-decoration: none;
+            padding: 14px 15px;
+            margin: 6px 0;
+            border-radius: 8px;
+        }
+
+        .nav a:hover,
+        .nav .active {
+            background: #1f5c45;
+            color: white;
+        }
+
+        .back-home {
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+        }
+
+        .back-home a {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            border: 1px solid #6fa887;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Main */
+        .main {
+            margin-left: 250px;
+            padding: 35px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+            color: #12372a;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #64748b;
+        }
+
+        /* Alert */
+        .alert {
+            background: #edf7f0;
+            border-left: 5px solid #1f7a50;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .alert h3 {
+            color: #12372a;
+            margin-bottom: 7px;
+        }
+
+        .alert p {
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        /* Recommendation cards */
+        .recommendations {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .recommendation-card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+        }
+
+        .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #e8f5ec;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        .recommendation-card h2 {
+            color: #12372a;
+            margin-bottom: 10px;
+        }
+
+        .recommendation-card p {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .recommendation-card ul {
+            padding-left: 20px;
+            color: #475569;
+            line-height: 1.8;
+        }
+
+        /* Priority */
+        .priority {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .high {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .low {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* Action section */
+        .action-section {
+            margin-top: 25px;
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+        }
+
+        .action-section h2 {
+            color: #12372a;
+            margin-bottom: 15px;
+        }
+
+        .action-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .action-item {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            padding: 15px;
+            background: #f8faf9;
+            border-radius: 10px;
+        }
+
+        .number {
+            min-width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #1f7a50;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .action-item h3 {
+            color: #12372a;
+            margin-bottom: 5px;
+        }
+
+        .action-item p {
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            margin-top: 25px;
+            padding: 18px;
+            background: #fffdf5;
+            border: 1px solid #f1e4b3;
+            border-radius: 10px;
+            color: #665c35;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Mobile */
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+                padding: 20px;
+            }
+
+            .recommendations {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .back-home {
+                position: relative;
+                left: auto;
+                right: auto;
+                bottom: auto;
+                margin-top: 20px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            🌱 Agri<span>Waste</span>
+        </div>
+
+        <nav class="nav">
+
+            <a href="#">📊 Dashboard</a>
+
+            <a href="#">➕ Add Produce</a>
+
+            <a href="#">🌾 My Produce</a>
+
+            <a href="#">⚠️ Risk Analysis</a>
+
+            <a href="#">📜 History</a>
+
+            <a href="#" class="active">💡 Recommendations</a>
+
+        </nav>
+
+        <div class="back-home">
+            <a href="#">← Back to Home</a>
+        </div>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <div class="header">
+            <h1>Recommendations</h1>
+            <p>Practical suggestions to help reduce agricultural produce waste.</p>
+        </div>
+
+
+        <!-- Alert -->
+        <div class="alert">
+
+            <h3>🌱 Recommendation Summary</h3>
+
+            <p>
+                Based on the current sample produce data, maintaining proper
+                storage conditions and monitoring produce quality can help
+                reduce potential post-harvest losses.
+            </p>
+
+        </div>
+
+
+        <!-- Recommendation Cards -->
+        <section class="recommendations">
+
+
+            <!-- Storage -->
+            <div class="recommendation-card">
+
+                <div class="icon">🏠</div>
+
+                <span class="priority high">
+                    HIGH PRIORITY
+                </span>
+
+                <h2>Improve Storage</h2>
+
+                <p>
+                    Proper storage can help protect agricultural produce
+                    from environmental conditions and quality deterioration.
+                </p>
+
+                <ul>
+                    <li>Keep storage areas clean and dry.</li>
+                    <li>Maintain suitable ventilation.</li>
+                    <li>Check stored produce regularly.</li>
+                </ul>
+
+            </div>
+
+
+            <!-- Temperature -->
+            <div class="recommendation-card">
+
+                <div class="icon">🌡️</div>
+
+                <span class="priority medium">
+                    MEDIUM PRIORITY
+                </span>
+
+                <h2>Monitor Temperature</h2>
+
+                <p>
+                    Temperature conditions should be monitored regularly,
+                    especially for produce that is sensitive to heat.
+                </p>
+
+                <ul>
+                    <li>Record temperature regularly.</li>
+                    <li>Avoid unnecessary heat exposure.</li>
+                    <li>Take action when conditions change.</li>
+                </ul>
+
+            </div>
+
+
+            <!-- Humidity -->
+            <div class="recommendation-card">
+
+                <div class="icon">💧</div>
+
+                <span class="priority medium">
+                    MEDIUM PRIORITY
+                </span>
+
+                <h2>Monitor Humidity</h2>
+
+                <p>
+                    Excessive moisture can contribute to quality problems
+                    in some types of stored produce.
+                </p>
+
+                <ul>
+                    <li>Monitor humidity levels.</li>
+                    <li>Prevent unnecessary moisture.</li>
+                    <li>Keep storage areas ventilated.</li>
+                </ul>
+
+            </div>
+
+
+            <!-- Quality -->
+            <div class="recommendation-card">
+
+                <div class="icon">🔍</div>
+
+                <span class="priority low">
+                    LOW PRIORITY
+                </span>
+
+                <h2>Quality Monitoring</h2>
+
+                <p>
+                    Regular quality checks can help identify deterioration
+                    early and support better decisions.
+                </p>
+
+                <ul>
+                    <li>Inspect produce regularly.</li>
+                    <li>Separate damaged produce.</li>
+                    <li>Record quality changes.</li>
+                </ul>
+
+            </div>
+
+        </section>
+
+
+        <!-- Action Plan -->
+        <section class="action-section">
+
+            <h2>📋 Suggested Action Plan</h2>
+
+            <div class="action-list">
+
+                <div class="action-item">
+
+                    <div class="number">1</div>
+
+                    <div>
+                        <h3>Check Storage</h3>
+                        <p>
+                            Inspect the current storage area and identify
+                            conditions that may affect produce quality.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="action-item">
+
+                    <div class="number">2</div>
+
+                    <div>
+                        <h3>Monitor Conditions</h3>
+                        <p>
+                            Keep track of temperature, humidity and
+                            produce condition at regular intervals.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="action-item">
+
+                    <div class="number">3</div>
+
+                    <div>
+                        <h3>Prioritize At-Risk Produce</h3>
+                        <p>
+                            Give earlier attention to produce showing
+                            signs of deterioration or higher waste risk.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="action-item">
+
+                    <div class="number">4</div>
+
+                    <div>
+                        <h3>Review the Analysis</h3>
+                        <p>
+                            Reassess the produce when its storage conditions
+                            or quality changes.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+
+            ⚠️ <strong>Note:</strong>
+            These recommendations are general prototype suggestions.
+            Actual recommendations will later be generated according to
+            crop type, storage conditions, environmental data and validated
+            agricultural knowledge.
+
+        </div>
+
+    </main>
+
+</body>
+</html>
