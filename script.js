@@ -191,10 +191,45 @@ function calculateRisk(produce) {
     } else {
         level = "High";
     }
+// ========================================
+// Risk Analysis Page
+// ========================================
 
+document.addEventListener("DOMContentLoaded", function () {
+
+    const riskScore = document.getElementById("riskScore");
+    const riskLabel = document.getElementById("riskLabel");
+
+    // Agar Risk Analysis page nahi hai
+    if (!riskScore || !riskLabel) {
+        return;
+    }
+
+    // Saved produce data nikalo
+    const produceData = getProduceData();
+
+    // Agar koi produce saved nahi hai
+    if (produceData.length === 0) {
+        riskScore.textContent = "0%";
+        riskLabel.textContent = "No Data";
+        return;
+    }
+
+    // Sabse recent produce
+    const latestProduce = produceData[produceData.length - 1];
+
+    // Risk calculate karo
+    const risk = calculateRisk(latestProduce);
+
+    // Screen par show karo
+    riskScore.textContent = risk.score + "%";
+    riskLabel.textContent = risk.level + " Risk";
+
+});
 
     return {
         score: score,
         level: level
     };
 }
+
